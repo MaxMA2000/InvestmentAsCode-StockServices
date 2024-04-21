@@ -2,6 +2,7 @@ package investmentascode.projects.investmentascodestockservices.controller;
 
 
 import investmentascode.projects.investmentascodestockservices.dto.StockInfoDTO;
+import investmentascode.projects.investmentascodestockservices.service.StockInfoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -15,14 +16,16 @@ import java.util.List;
 @Controller
 public class StockInfoController {
 
+  private StockInfoService stockInfoService;
+
+  public StockInfoController(StockInfoService stockInfoService) {
+    this.stockInfoService = stockInfoService;
+  }
+
   @GetMapping("/v1/stocks")
   public ResponseEntity<List<StockInfoDTO>> getStocks() {
-    String url = "http://localhost:3000/v1/asset/byType?type=stock";
-    RestTemplate restTemplate = new RestTemplate();
 
-    ResponseEntity<StockInfoDTO[]> response = restTemplate.getForEntity(url, StockInfoDTO[].class);
-    StockInfoDTO[] stockInfoArray = response.getBody();
-    List<StockInfoDTO> stockInfoList = Arrays.asList(stockInfoArray);
+    List<StockInfoDTO> stockInfoList = stockInfoService.getAllStocks();
 
     return new ResponseEntity<>(stockInfoList, HttpStatus.OK);
   }
@@ -30,11 +33,8 @@ public class StockInfoController {
 
   @GetMapping("/v1/stocks/{id}")
   public ResponseEntity<?> getStockById(@PathVariable("id") String id){
-    String url = "http://localhost:3000/v1/asset/byId?id=" + id;
-    RestTemplate restTemplate = new RestTemplate();
 
-    ResponseEntity<StockInfoDTO> response = restTemplate.getForEntity(url, StockInfoDTO.class);
-    StockInfoDTO stockInfo = response.getBody();
+    StockInfoDTO stockInfo = stockInfoService.getStockById(id);
 
     if (!stockInfo.getType().equals("stock")) {
       System.out.println("asset id = " + id + " is not stock, please check.");
