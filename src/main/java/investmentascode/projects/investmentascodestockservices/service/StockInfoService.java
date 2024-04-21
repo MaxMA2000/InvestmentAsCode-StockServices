@@ -2,6 +2,7 @@ package investmentascode.projects.investmentascodestockservices.service;
 
 
 import investmentascode.projects.investmentascodestockservices.dto.StockInfoDTO;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -12,10 +13,13 @@ import java.util.List;
 @Service
 public class StockInfoService {
 
-  private String BASE_URL = "http://localhost:3000";
+
+  @Value("${assetService.url}")
+  private String assetServiceUrl;
+
 
   public List<StockInfoDTO> getAllStocks() {
-    String url = BASE_URL + "/v1/asset/byType?type=stock";
+    String url = assetServiceUrl + "/v1/asset/byType?type=stock";
     RestTemplate restTemplate = new RestTemplate();
 
     ResponseEntity<StockInfoDTO[]> response = restTemplate.getForEntity(url, StockInfoDTO[].class);
@@ -26,7 +30,7 @@ public class StockInfoService {
 
 
   public StockInfoDTO getStockById(String id) {
-    String url = BASE_URL + "/v1/asset/byId?id=" + id;
+    String url = assetServiceUrl + "/v1/asset/byId?id=" + id;
     RestTemplate restTemplate = new RestTemplate();
 
     ResponseEntity<StockInfoDTO> response = restTemplate.getForEntity(url, StockInfoDTO.class);
