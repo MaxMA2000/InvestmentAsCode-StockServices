@@ -30,6 +30,6 @@ public class StockPriceDTO {
   private Float vwap;
   private String label;
   private Float changeOverTime;
-  private Date asOfDate;
+  private String asOfDate;
 
 }
