@@ -1,6 +1,5 @@
 package investmentascode.projects.investmentascodestockservices.controller;
 
-
 import investmentascode.projects.investmentascodestockservices.dto.StockInfoDTO;
 import investmentascode.projects.investmentascodestockservices.service.StockInfoService;
 import org.springframework.http.HttpStatus;
@@ -8,9 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.client.RestTemplate;
-
-import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -31,7 +27,7 @@ public class StockInfoController {
   }
 
 
-  @GetMapping("/v1/stocks/{id}")
+  @GetMapping("/v1/stock/{id}")
   public ResponseEntity<?> getStockById(@PathVariable("id") String id){
 
     StockInfoDTO stockInfo = stockInfoService.getStockById(id);
