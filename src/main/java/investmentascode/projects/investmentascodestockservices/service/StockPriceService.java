@@ -1,6 +1,7 @@
 package investmentascode.projects.investmentascodestockservices.service;
 
 import investmentascode.projects.investmentascodestockservices.dto.StockPriceDTO;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -13,6 +14,9 @@ import java.util.List;
 
 @Service
 public class StockPriceService {
+
+  @Value("${DAL.url}")
+  private String DALUrl;
 
   public Boolean isFromDateBeforeToDate(String from, String to){
 
@@ -34,7 +38,7 @@ public class StockPriceService {
 
     // Build the URL with parameters using UriComponentsBuilder
     String url = UriComponentsBuilder
-      .fromHttpUrl("http://localhost:8080/data/v1/stock/byAssetIdAndDateRange")
+      .fromHttpUrl(DALUrl + "/data/v1/stock/byAssetIdAndDateRange")
       .queryParam("asset_id", id)
       .queryParam("from", from)
       .queryParam("to", to)
